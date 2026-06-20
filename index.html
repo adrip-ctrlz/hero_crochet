@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Heroe Crochet</title>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Barlow+Condensed:wght@700;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy: #0B2545;
+    --navy-deep: #061629;
+    --blue: #1565C0;
+    --blue-mid: #1976D2;
+    --white: #FFFFFF;
+    --ice: #F5F7FA;
+    --black: #0A0A0A;
+    --gray: #6B7280;
+    --gray-light: #E5E7EB;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--ice);
+    color: var(--black);
+    overflow-x: hidden;
+  }
+
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: var(--navy-deep);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 3rem;
+    height: 64px;
+  }
+
+  .nav-logo {
+    font-family: 'Great Vibes', cursive;
+    font-weight: 400;
+    font-size: 2rem;
+    color: var(--white);
+    letter-spacing: 0.04em;
+    text-transform: none;
+  }
+
+  .nav-logo span { color: var(--blue-mid); }
+
+  .nav-links {
+    display: flex; gap: 2rem; list-style: none;
+  }
+
+  .nav-links a {
+    color: rgba(255,255,255,0.7);
+    text-decoration: none;
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--white); }
+
+  .nav-cta {
+    background: var(--blue);
+    color: var(--white) !important;
+    padding: 0.45rem 1.1rem;
+    border-radius: 2px;
+    letter-spacing: 0.08em;
+    transition: background 0.2s !important;
+  }
+
+  .nav-cta:hover { background: var(--blue-mid) !important; color: var(--white) !important; }
+
+  .hero {
+    position: relative;
+    height: 100vh;
+    min-height: 600px;
+    background: var(--navy);
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+  }
+
+  #hero-canvas {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    opacity: 0.18;
+  }
+
+  .hero-content {
+    position: relative; z-index: 2;
+    text-align: center;
+    padding: 0 1.5rem;
+  }
+
+  .hero-eyebrow {
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--blue-mid);
+    margin-bottom: 1.2rem;
+  }
+
+  .hero-title {
+    font-family: 'Great Vibes', cursive;
+    font-weight: 400;
+    font-size: clamp(5rem, 12vw, 11rem);
+    line-height: 1;
+    color: var(--white);
+    text-transform: none;
+    letter-spacing: 0.02em;
+  }
+
+  .hero-title .accent { color: var(--blue-mid); }
+
+  .hero-sub {
+    margin-top: 1.8rem;
+    font-size: 1rem;
+    color: rgba(255,255,255,0.55);
+    font-weight: 300;
+    letter-spacing: 0.04em;
+    max-width: 380px;
+    margin-left: auto; margin-right: auto;
+    line-height: 1.6;
+  }
+
+  .hero-btn {
+    display: inline-block;
+    margin-top: 2.5rem;
+    padding: 0.85rem 2.5rem;
+    background: var(--white);
+    color: var(--navy);
+    font-weight: 600;
+    font-size: 0.8rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 2px;
+    transition: background 0.2s, color 0.2s;
+  }
+
+  .hero-btn:hover {
+    background: var(--blue-mid);
+    color: var(--white);
+  }
+
+  section { padding: 6rem 3rem; }
+
+  .section-label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--blue);
+    margin-bottom: 0.6rem;
+  }
+
+  .section-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    color: var(--navy);
+    line-height: 1;
+    letter-spacing: 0.01em;
+    text-transform: uppercase;
+  }
+
+  #productos { background: var(--ice); }
+
+  .products-header {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    margin-bottom: 3rem;
+  }
+
+  .filter-tabs { display: flex; gap: 0.5rem; }
+
+  .filter-btn {
+    background: transparent;
+    border: 1px solid var(--gray-light);
+    border-radius: 2px;
+    padding: 0.4rem 1rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--gray);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .filter-btn.active, .filter-btn:hover {
+    background: var(--navy);
+    border-color: var(--navy);
+    color: var(--white);
+  }
+
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .product-card {
+    background: var(--white);
+    overflow: hidden;
+    border: 1px solid var(--gray-light);
+    transition: transform 0.25s, box-shadow 0.25s;
+    cursor: pointer;
+  }
+
+  .product-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(11,37,69,0.12);
+  }
+
+  .product-img {
+    width: 100%;
+    aspect-ratio: 1;
+    display: block;
+    position: relative;
+    overflow: hidden;
+    background: var(--navy);
+  }
+
+  /* Foto real del producto */
+  .product-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* SVG placeholder cuando no hay foto */
+  .product-img svg {
+    width: 100%; height: 100%;
+    position: absolute; top: 0; left: 0;
+  }
+
+  .product-badge {
+    position: absolute;
+    top: 1rem; left: 1rem;
+    background: var(--navy);
+    color: var(--white);
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 0.25rem 0.6rem;
+    border-radius: 2px;
+    z-index: 2;
+  }
+
+  .product-badge.sale { background: var(--blue); }
+
+  .product-info {
+    padding: 1.25rem 1.25rem 1.5rem;
+    border-top: 2px solid var(--navy);
+  }
+
+  .product-cat {
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--blue);
+    margin-bottom: 0.35rem;
+  }
+
+  .product-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 1.35rem;
+    text-transform: uppercase;
+    color: var(--navy);
+    letter-spacing: 0.02em;
+    line-height: 1.1;
+    margin-bottom: 0.5rem;
+  }
+
+  .product-desc {
+    font-size: 0.82rem;
+    color: var(--gray);
+    line-height: 1.55;
+    margin-bottom: 1rem;
+  }
+
+  .product-footer {
+    display: flex; justify-content: space-between; align-items: center;
+  }
+
+  .product-price {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--navy);
+  }
+
+  .product-price .currency {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--gray);
+    margin-left: 2px;
+  }
+
+  .btn-order {
+    background: var(--navy);
+    color: var(--white);
+    border: none;
+    padding: 0.55rem 1.1rem;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: background 0.2s;
+  }
+
+  .btn-order:hover { background: var(--blue); }
+
+  #personalizado {
+    background: var(--navy);
+    color: var(--white);
+  }
+
+  #personalizado .section-label { color: rgba(100,160,255,0.9); }
+  #personalizado .section-title { color: var(--white); }
+
+  .custom-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+    margin-top: 3rem;
+  }
+
+  .custom-perks {
+    list-style: none;
+    margin-top: 1.5rem;
+    display: flex; flex-direction: column; gap: 1rem;
+  }
+
+  .custom-perks li {
+    display: flex; align-items: flex-start; gap: 0.75rem;
+    font-size: 0.9rem;
+    color: rgba(255,255,255,0.7);
+    line-height: 1.5;
+  }
+
+  .perk-dot {
+    width: 6px; height: 6px;
+    background: var(--blue-mid);
+    border-radius: 50%;
+    margin-top: 7px;
+    flex-shrink: 0;
+  }
+
+  .custom-form {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 4px;
+    padding: 2.5rem;
+  }
+
+  .form-group { margin-bottom: 1.25rem; }
+
+  .form-group label {
+    display: block;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.55);
+    margin-bottom: 0.5rem;
+  }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    width: 100%;
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 2px;
+    padding: 0.7rem 0.9rem;
+    color: var(--white);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.88rem;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .form-group input::placeholder,
+  .form-group textarea::placeholder { color: rgba(255,255,255,0.3); }
+
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus { border-color: var(--blue-mid); }
+
+  .form-group select option { background: var(--navy-deep); color: var(--white); }
+
+  .form-group textarea { resize: vertical; min-height: 120px; line-height: 1.5; }
+
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+  .btn-send {
+    width: 100%;
+    background: var(--white);
+    color: var(--navy);
+    border: none;
+    padding: 0.9rem;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    border-radius: 2px;
+    cursor: pointer;
+    margin-top: 0.5rem;
+    transition: background 0.2s, color 0.2s;
+  }
+
+  .btn-send:hover { background: var(--blue-mid); color: var(--white); }
+
+  .form-success { display: none; text-align: center; padding: 2rem 0; }
+  .form-success .check { font-size: 2.5rem; margin-bottom: 1rem; }
+  .form-success p { color: rgba(255,255,255,0.7); font-size: 0.9rem; line-height: 1.6; }
+
+  .modal-overlay {
+    display: none;
+    position: fixed; inset: 0; z-index: 200;
+    background: rgba(6,22,41,0.85);
+    align-items: center; justify-content: center;
+    padding: 1.5rem;
+  }
+
+  .modal-overlay.open { display: flex; }
+
+  .modal {
+    background: var(--white);
+    border-radius: 4px;
+    max-width: 540px; width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+
+  .modal-header {
+    background: var(--navy);
+    padding: 1.5rem 1.75rem;
+    display: flex; justify-content: space-between; align-items: flex-start;
+  }
+
+  .modal-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 1.6rem;
+    text-transform: uppercase;
+    color: var(--white);
+    line-height: 1.1;
+  }
+
+  .modal-cat {
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--blue-mid);
+    margin-bottom: 0.25rem;
+  }
+
+  .modal-close {
+    background: none; border: none; color: rgba(255,255,255,0.5);
+    cursor: pointer; font-size: 1.3rem; line-height: 1;
+    margin-left: 1rem; flex-shrink: 0; margin-top: 2px;
+    transition: color 0.15s;
+  }
+
+  .modal-close:hover { color: var(--white); }
+
+  .modal-body { padding: 1.75rem; }
+
+  .modal-img {
+    width: 100%; border-radius: 2px; margin-bottom: 1.5rem;
+    aspect-ratio: 16/9; overflow: hidden;
+    background: var(--navy);
+  }
+
+  .modal-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .modal-img svg { width: 100%; height: 100%; }
+
+  .modal-desc {
+    font-size: 0.9rem;
+    color: var(--gray);
+    line-height: 1.65;
+    margin-bottom: 1.5rem;
+  }
+
+  .modal-meta {
+    display: flex; justify-content: space-between; align-items: center;
+    border-top: 1px solid var(--gray-light);
+    padding-top: 1.25rem;
+  }
+
+  .modal-price {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--navy);
+  }
+
+  .modal-btn {
+    background: var(--navy);
+    color: var(--white);
+    border: none;
+    padding: 0.7rem 1.6rem;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: background 0.2s;
+  }
+
+  .modal-btn:hover { background: var(--blue); }
+
+  footer {
+    background: var(--navy-deep);
+    color: rgba(255,255,255,0.45);
+    text-align: center;
+    padding: 2rem 3rem;
+    font-size: 0.78rem;
+    letter-spacing: 0.05em;
+    line-height: 1.7;
+  }
+
+  footer strong { color: rgba(255,255,255,0.8); font-weight: 500; }
+
+  @media (max-width: 768px) {
+    nav { padding: 0 1.25rem; }
+    .nav-links { display: none; }
+    section { padding: 4rem 1.25rem; }
+    .products-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
+    .custom-layout { grid-template-columns: 1fr; gap: 2rem; }
+    .form-row { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">Heroe <span>Crochet</span></div>
+  <ul class="nav-links">
+    <li><a href="#productos">Productos</a></li>
+    <li><a href="#personalizado" class="nav-cta">Pedir personalizado</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <canvas id="hero-canvas"></canvas>
+  <div class="hero-content">
+    <p class="hero-eyebrow">Hecho a mano &middot; Hecho con amor</p>
+    <h1 class="hero-title">Heroe<br><span class="accent">Crochet</span></h1>
+    <p class="hero-sub">Cada pieza tejida con dedicacion. Accesorios y articulos unicos que cuentan una historia.</p>
+    <a href="#productos" class="hero-btn">Ver coleccion</a>
+  </div>
+</section>
+
+<section id="productos">
+  <div class="products-header">
+    <div>
+      <p class="section-label">Coleccion</p>
+      <h2 class="section-title">Nuestros productos</h2>
+    </div>
+    <div class="filter-tabs">
+      <button class="filter-btn active" data-filter="all">Todo</button>
+      <button class="filter-btn" data-filter="accesorios">Accesorios</button>
+      <button class="filter-btn" data-filter="hogar">Hogar</button>
+      <button class="filter-btn" data-filter="munecos">Munecos</button>
+    </div>
+  </div>
+  <div class="products-grid" id="product-grid"></div>
+</section>
+
+<section id="personalizado">
+  <div class="custom-layout">
+    <div>
+      <p class="section-label">Diseno exclusivo</p>
+      <h2 class="section-title">Quieres algo unico?</h2>
+      <ul class="custom-perks">
+        <li><span class="perk-dot"></span>Cuentanos tu idea y la tejemos a tu medida: colores, tamano, forma.</li>
+        <li><span class="perk-dot"></span>Usamos hilos de alta calidad disponibles en mas de 30 colores.</li>
+        <li><span class="perk-dot"></span>Tiempo de entrega estimado: 7 a 15 dias habiles segun complejidad.</li>
+        <li><span class="perk-dot"></span>Ideal para regalos, decoracion o proyectos especiales.</li>
+      </ul>
+    </div>
+    <div class="custom-form" id="custom-form-wrap">
+      <div id="form-fields">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Nombre</label>
+            <input type="text" id="f-name" placeholder="Tu nombre">
+          </div>
+          <div class="form-group">
+            <label>Correo electronico</label>
+            <input type="email" id="f-email" placeholder="correo@ejemplo.com">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Tipo de producto</label>
+          <select id="f-type">
+            <option value="">Selecciona</option>
+            <option>Bolso o cartera</option>
+            <option>Muneco amigurumi</option>
+            <option>Diadema o accesorio de cabeza</option>
+            <option>Decoracion para el hogar</option>
+            <option>Prenda de vestir</option>
+            <option>Otro</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Colores preferidos</label>
+          <input type="text" id="f-colors" placeholder="Ej: azul marino, blanco y beige">
+        </div>
+        <div class="form-group">
+          <label>Cuentanos tu idea</label>
+          <textarea id="f-idea" placeholder="Describe lo que tienes en mente: tamano, forma, uso, ocasion especial..."></textarea>
+        </div>
+        <button class="btn-send" onclick="sendCustomOrder()">Enviar solicitud</button>
+      </div>
+      <div class="form-success" id="form-success">
+        <div class="check">&#10022;</div>
+        <p>Solicitud recibida! Te contactaremos al correo indicado en las proximas 24 horas para coordinar los detalles de tu pedido personalizado.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <strong>Heroe Crochet</strong><br>
+  Hecho con amor en Colombia &middot; <a href="mailto:hereocrochet@gmail.com" style="color:rgba(100,160,255,0.8);text-decoration:none;">hereocrochet@gmail.com</a><br>
+  <span style="font-size:0.7rem; opacity:0.6;">&copy; 2025 Heroe Crochet. Todos los derechos reservados.</span>
+</footer>
+
+<div class="modal-overlay" id="modal" onclick="closeModal(event)">
+  <div class="modal" id="modal-box">
+    <div class="modal-header">
+      <div>
+        <p class="modal-cat" id="modal-cat"></p>
+        <p class="modal-title" id="modal-name"></p>
+      </div>
+      <button class="modal-close" onclick="closeModalDirect()">&#10005;</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-img" id="modal-img"></div>
+      <p class="modal-desc" id="modal-desc"></p>
+      <div class="modal-meta">
+        <span class="modal-price" id="modal-price"></span>
+        <button class="modal-btn" onclick="scrollToCustom()">Pedir este / personalizar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* =====================================================
+   PRODUCTOS — edita aqui tu catalogo
+   img: pon la URL de tu foto entre las comillas
+        Si no tienes foto aun, dejala vacia ""
+        y se mostrara la ilustracion de fondo
+   ===================================================== */
+const PRODUCTS = [
+  {
+    id: 1,
+    cat: "accesorios",
+    catLabel: "Accesorios",
+    name: "Bolso Mini Tote",
+    img: "",  /* <-- COLOCA AQUI LA URL DE TU FOTO */
+    desc: "Bolso tejido en crochet con asas cortas, perfecto para el dia a dia. Diseno compacto con cierre interno.",
+    longDesc: "Bolso mini tote 100% tejido a mano en hilo de algodon de alta resistencia. Incluye forro interno de tela y cierre de cremallera. Disponible en combinacion azul/blanco o negro/azul. Ideal para salidas cortas, el mercado o como cartera de mano.",
+    price: "65.000",
+    badge: "Popular",
+    badgeCls: "",
+    color: "#0B2545",
+    pattern: "tote"
+  },
+  {
+    id: 2,
+    cat: "munecos",
+    catLabel: "Munecos",
+    name: "Amigurumi Oso",
+    img: "https://cdn.phototourl.com/free/2026-06-15-557156ac-9e72-4c56-b8dc-0b266510ef41.jpg",  /* <-- COLOCA AQUI LA URL DE TU FOTO */
+    desc: "Oso amigurumi tejido a mano, relleno de fibra antialergica. Ideal como regalo o decoracion.",
+    longDesc: "Tierno oso de crochet tejido con hilo suave tipo perle, relleno de guata hipoalergenica. Mide aproximadamente 20 cm de altura. Ojos de seguridad cosidos, completamente seguro para ninos mayores de 3 anos. Puede personalizarse con nombre bordado.",
+    price: "45.000",
+    badge: "Nuevo",
+    badgeCls: "sale",
+    color: "#1565C0",
+    pattern: "bear"
+  },
+  {
+    id: 3,
+    cat: "accesorios",
+    catLabel: "Accesorios",
+    name: "Diadema Floral",
+    img: "https://cdn.phototourl.com/free/2026-06-15-a5c69039-06a0-4d96-a0ac-edd06a2956fd.jpg",  /* <-- COLOCA AQUI LA URL DE TU FOTO */
+    desc: "Diadema tejida con flores tridimensionales. Accesorio delicado y versatil para cualquier ocasion.",
+    longDesc: "Diadema artesanal con flores tejidas en relieve usando tecnica de crochet 3D. Base de alambre cubierto con hilo de algodon para mayor durabilidad. Flores disponibles en distintos colores. Perfecta para fotos, eventos o uso casual.",
+    price: "28.000",
+    badge: "",
+    badgeCls: "",
+    color: "#061629",
+    pattern: "flower"
+  },
+  {
+    id: 4,
+    cat: "hogar",
+    catLabel: "Hogar",
+    name: "Posavasos Set x4",
+    img: "",  /* <-- COLOCA AQUI LA URL DE TU FOTO */
+    desc: "Set de 4 posavasos tejidos en algodon natural. Elegantes y funcionales para proteger tus superficies.",
+    longDesc: "Set de cuatro posavasos circulares tejidos en crochet con hilo de algodon reciclado. Diametro 10 cm. Diseno geometrico en colores azul, blanco y negro que complementa cualquier estilo de cocina o comedor. Lavables a mano.",
+    price: "22.000",
+    badge: "",
+    badgeCls: "",
+    color: "#0B2545",
+    pattern: "coaster"
+  },
+  {
+    id: 5,
+    cat: "hogar",
+    catLabel: "Hogar",
+    name: "Macetero Tejido",
+    img: "",  /* <-- COLOCA AQUI LA URL DE TU FOTO */
+    desc: "Cubre-macetero en crochet para plantas de interior. Tejido geometrico en azul y blanco.",
+    longDesc: "Portamacetas tejido con hilo de algodon resistente a la humedad. Compatible con macetas de hasta 15 cm de diametro. Diseno rombo en colores azul navy y blanco. Incluye fondo reforzado para mayor estabilidad.",
+    price: "35.000",
+    badge: "Sale",
+    badgeCls: "sale",
+    color: "#1976D2",
+    pattern: "pot"
+  },
+  {
+    id: 6,
+    cat: "munecos",
+    catLabel: "Munecos",
+    name: "Amigurumi Ballena",
+    img: "",  /* <-- COLOCA AQUI LA URL DE TU FOTO */
+    desc: "Ballena amigurumi en hilo azul y blanco. Adorable companero de escritorio o almohada decorativa.",
+    longDesc: "Ballena tejida en crochet con hilo acrilico suave de alta calidad. Mide 25 cm de largo. Relleno de guata hipoalergenica. Cola y aletas con refuerzo interno para mejor forma. Disponible en azul oceano con vientre blanco o en version black and white.",
+    price: "50.000",
+    badge: "",
+    badgeCls: "",
+    color: "#0B2545",
+    pattern: "whale"
+  }
+];
+
+/* Ilustraciones SVG de respaldo (se muestran si img esta vacia) */
+function drawPattern(type, color) {
+  const svgs = {
+    tote: `<svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%">
+      <rect width="300" height="300" fill="${color}"/>
+      <rect x="80" y="110" width="140" height="130" rx="8" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="2.5"/>
+      <rect x="83" y="113" width="134" height="124" rx="6" fill="rgba(255,255,255,0.05)"/>
+      <path d="M110 110 Q110 72 150 72 Q190 72 190 110" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="8" stroke-linecap="round"/>
+      ${Array.from({length:7},(_,i)=>`<line x1="80" y1="${130+i*16}" x2="220" y2="${130+i*16}" stroke="rgba(255,255,255,0.07)" stroke-width="1.5"/>`).join('')}
+      ${Array.from({length:9},(_,i)=>`<line x1="${80+i*17}" y1="110" x2="${80+i*17}" y2="240" stroke="rgba(255,255,255,0.07)" stroke-width="1.5"/>`).join('')}
+      ${[[105,140],[150,140],[195,140],[105,175],[150,175],[195,175],[105,210],[150,210],[195,210]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="5" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"/>`).join('')}
+    </svg>`,
+    bear: `<svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%">
+      <rect width="300" height="300" fill="${color}"/>
+      <circle cx="150" cy="145" r="62" fill="rgba(255,255,255,0.12)" stroke="rgba(255,255,255,0.25)" stroke-width="2"/>
+      <circle cx="115" cy="98" r="28" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.22)" stroke-width="2"/>
+      <circle cx="185" cy="98" r="28" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.22)" stroke-width="2"/>
+      <circle cx="136" cy="138" r="8" fill="rgba(255,255,255,0.5)"/>
+      <circle cx="164" cy="138" r="8" fill="rgba(255,255,255,0.5)"/>
+      <circle cx="150" cy="160" r="14" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>
+      <path d="M140 175 Q150 183 160 175" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2" stroke-linecap="round"/>
+      <circle cx="80" cy="200" r="30" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.15)" stroke-width="1.5"/>
+      <circle cx="220" cy="200" r="30" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.15)" stroke-width="1.5"/>
+    </svg>`,
+    flower: `<svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%">
+      <rect width="300" height="300" fill="${color}"/>
+      <ellipse cx="150" cy="60" rx="120" ry="18" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.3)" stroke-width="2"/>
+      ${[0,60,120,180,240,300].map(a=>{const rad=a*Math.PI/180,r=50,cx=150+r*Math.cos(rad),cy=160+r*Math.sin(rad);return `<ellipse cx="${cx}" cy="${cy}" rx="22" ry="32" transform="rotate(${a},${cx},${cy})" fill="rgba(255,255,255,0.12)" stroke="rgba(255,255,255,0.22)" stroke-width="1.5"/>`;}).join('')}
+      <circle cx="150" cy="160" r="22" fill="rgba(255,255,255,0.2)" stroke="rgba(255,255,255,0.35)" stroke-width="2"/>
+    </svg>`,
+    coaster: `<svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%">
+      <rect width="300" height="300" fill="${color}"/>
+      ${[80,68,55,42,30,20].map((r,i)=>`<circle cx="150" cy="150" r="${r}" fill="none" stroke="rgba(255,255,255,${0.1+i*0.04})" stroke-width="${i<3?2:1.5}" stroke-dasharray="${i%2===0?'0':'6 4'}"/>`).join('')}
+      ${Array.from({length:8},(_,i)=>{const a=i*45*Math.PI/180;return `<line x1="150" y1="150" x2="${150+80*Math.cos(a)}" y2="${150+80*Math.sin(a)}" stroke="rgba(255,255,255,0.08)" stroke-width="1.5"/>`;}).join('')}
+      <circle cx="150" cy="150" r="12" fill="rgba(255,255,255,0.2)" stroke="rgba(255,255,255,0.35)" stroke-width="2"/>
+    </svg>`,
+    pot: `<svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%">
+      <rect width="300" height="300" fill="${color}"/>
+      <path d="M100 100 L200 100 L215 240 L85 240 Z" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.25)" stroke-width="2"/>
+      <rect x="85" y="92" width="130" height="16" rx="3" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>
+      ${Array.from({length:6},(_,i)=>`<line x1="90" y1="${116+i*20}" x2="210" y2="${116+i*20}" stroke="rgba(255,255,255,0.1)" stroke-width="1.5"/>`).join('')}
+      <path d="M130 50 Q150 20 170 50 Q170 75 150 80 Q130 75 130 50Z" fill="rgba(255,255,255,0.12)" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"/>
+    </svg>`,
+    whale: `<svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%">
+      <rect width="300" height="300" fill="${color}"/>
+      <ellipse cx="145" cy="155" rx="100" ry="65" fill="rgba(255,255,255,0.12)" stroke="rgba(255,255,255,0.25)" stroke-width="2"/>
+      <path d="M240 140 Q270 120 275 155 Q270 185 240 170 Z" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"/>
+      <ellipse cx="145" cy="170" rx="90" ry="30" fill="rgba(255,255,255,0.07)"/>
+      <circle cx="90" cy="138" r="10" fill="rgba(255,255,255,0.5)"/>
+      <circle cx="90" cy="138" r="5" fill="rgba(0,0,0,0.4)"/>
+      <path d="M110 168 Q145 185 180 168" fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="2.5" stroke-linecap="round"/>
+      <path d="M148 100 Q155 82 162 100" fill="rgba(255,255,255,0.2)" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>
+    </svg>`
+  };
+  return svgs[type] || '';
+}
+
+function productImgHTML(p) {
+  if (p.img) {
+    return `<img src="${p.img}" alt="${p.name}" loading="lazy">`;
+  }
+  return drawPattern(p.pattern, p.color);
+}
+
+function renderProducts(filter) {
+  const grid = document.getElementById('product-grid');
+  const filtered = (!filter || filter === 'all') ? PRODUCTS : PRODUCTS.filter(p => p.cat === filter);
+  grid.innerHTML = filtered.map(p => `
+    <div class="product-card" onclick="openModal(${p.id})">
+      <div class="product-img" style="position:relative;">
+        ${productImgHTML(p)}
+        ${p.badge ? `<span class="product-badge ${p.badgeCls}">${p.badge}</span>` : ''}
+      </div>
+      <div class="product-info">
+        <p class="product-cat">${p.catLabel}</p>
+        <h3 class="product-name">${p.name}</h3>
+        <p class="product-desc">${p.desc}</p>
+        <div class="product-footer">
+          <span class="product-price">$${p.price}<span class="currency">COP</span></span>
+          <button class="btn-order">Ver mas</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderProducts(btn.dataset.filter);
+  });
+});
+
+function openModal(id) {
+  const p = PRODUCTS.find(x => x.id === id);
+  document.getElementById('modal-cat').textContent = p.catLabel;
+  document.getElementById('modal-name').textContent = p.name;
+  const mi = document.getElementById('modal-img');
+  mi.innerHTML = p.img ? `<img src="${p.img}" alt="${p.name}">` : drawPattern(p.pattern, p.color);
+  document.getElementById('modal-desc').textContent = p.longDesc;
+  document.getElementById('modal-price').textContent = '$' + p.price + ' COP';
+  document.getElementById('modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal(e) {
+  if (e.target === document.getElementById('modal')) closeModalDirect();
+}
+
+function closeModalDirect() {
+  document.getElementById('modal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function scrollToCustom() {
+  closeModalDirect();
+  setTimeout(() => document.getElementById('personalizado').scrollIntoView({behavior:'smooth'}), 200);
+}
+
+function sendCustomOrder() {
+  const name = document.getElementById('f-name').value.trim();
+  const email = document.getElementById('f-email').value.trim();
+  const idea = document.getElementById('f-idea').value.trim();
+  if (!name || !email || !idea) {
+    alert('Por favor completa al menos tu nombre, correo e idea.');
+    return;
+  }
+  const type = document.getElementById('f-type').value;
+  const colors = document.getElementById('f-colors').value;
+  const subject = encodeURIComponent('Pedido personalizado de ' + name + ' - Heroe Crochet');
+  const body = encodeURIComponent('Nombre: ' + name + '\nCorreo: ' + email + '\nProducto: ' + type + '\nColores: ' + colors + '\n\nIdea:\n' + idea);
+  window.location.href = 'mailto:hereocrochet@gmail.com?subject=' + subject + '&body=' + body;
+  document.getElementById('form-fields').style.display = 'none';
+  document.getElementById('form-success').style.display = 'block';
+}
+
+/* Animacion hexagonal del hero */
+(function() {
+  const canvas = document.getElementById('hero-canvas');
+  const ctx = canvas.getContext('2d');
+  let W, H, nodes = [], animId;
+
+  function resize() {
+    W = canvas.width = canvas.offsetWidth;
+    H = canvas.height = canvas.offsetHeight;
+    buildNodes();
+  }
+
+  function hexPts(cx, cy, r) {
+    return Array.from({length:6},(_,i)=>{
+      const a = Math.PI/180*(60*i-30);
+      return [cx+r*Math.cos(a), cy+r*Math.sin(a)];
+    });
+  }
+
+  function buildNodes() {
+    nodes = [];
+    const r = 38, dx = r*Math.sqrt(3), dy = r*1.5;
+    for(let row=-1; row<Math.ceil(H/dy)+2; row++){
+      for(let col=-1; col<Math.ceil(W/dx)+2; col++){
+        nodes.push({
+          cx: col*dx + (row%2)*dx/2,
+          cy: row*dy,
+          phase: Math.random()*Math.PI*2,
+          speed: 0.003+Math.random()*0.003
+        });
+      }
+    }
+  }
+
+  function draw(t) {
+    ctx.clearRect(0,0,W,H);
+    ctx.strokeStyle = 'rgba(100,180,255,0.6)';
+    ctx.lineWidth = 1;
+    nodes.forEach(n => {
+      const pulse = 0.4 + 0.6*Math.sin(t*n.speed*1000+n.phase);
+      const r = 16 + 4*pulse;
+      const pts = hexPts(n.cx, n.cy, r);
+      ctx.beginPath();
+      pts.forEach(([x,y],i) => i ? ctx.lineTo(x,y) : ctx.moveTo(x,y));
+      ctx.closePath();
+      ctx.globalAlpha = 0.15 + 0.15*pulse;
+      ctx.stroke();
+      ctx.fillStyle = 'rgba(21,101,192,' + (0.04*pulse) + ')';
+      ctx.fill();
+    });
+    ctx.globalAlpha = 1;
+    animId = requestAnimationFrame(draw);
+  }
+
+  window.addEventListener('resize', () => { cancelAnimationFrame(animId); resize(); animId = requestAnimationFrame(draw); });
+  resize();
+  requestAnimationFrame(draw);
+})();
+
+renderProducts('all');
+</script>
+</body>
+</html>
